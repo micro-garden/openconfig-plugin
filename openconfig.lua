@@ -66,8 +66,13 @@ end
 
 function cdReturn(bp)
 	if lastDir then
-		os.Chdir(lastDir)
-		micro.InfoBar():Message("Returned to: " .. lastDir)
+		local ok, err = pcall(os.Chdir, lastDir)
+
+		if not ok then
+			micro.InfoBar():Error("os.Chdir failed: " .. err)
+		else
+			micro.InfoBar():Message("Returned to: " .. lastDir)
+		end
 		lastDir = nil
 	else
 		micro.InfoBar():Error("No previous directory cached.")
