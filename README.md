@@ -17,6 +17,11 @@ mkdir -p ~/.config/micro/plug
 git clone https://github.com/akikareha/micro-openconfig-plugin ~/.config/micro/plug/openconfig
 ```
 
+Alternatively, this plugin is also available through the unofficial plugin
+channel:  
+https://github.com/akikareha/micro-unofficial-plugin-channel  
+You can install it by adding the channel and then using `plugin install`.
+
 ## License
 
 MIT.
