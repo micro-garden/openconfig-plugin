@@ -1,4 +1,4 @@
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 local micro = import("micro")
 local config = import("micro/config")
@@ -29,21 +29,14 @@ function openInitLua(bp)
 	openFile(bp, "init.lua")
 end
 
-local function isWindows()
-	return os.Getenv("windir") ~= ""
-end
-
 local function getCurrentDir()
-	local command = isWindows() and "cd" or "pwd"
-
-	local handle = io.popen(command)
-	if not handle then
+	local wd, err = os.Getwd()
+	if err ~= nil then
+		micro.InfoBar:Error("Getwd failed")
 		return nil
+	else
+		return wd
 	end
-
-	local result = handle:read("*l")
-	handle:close()
-	return result
 end
 
 local lastDir = nil
@@ -55,24 +48,14 @@ function cdConfig(bp)
 	end
 
 	local path = config.ConfigDir
-	local ok, err = pcall(os.Chdir, path)
-
-	if not ok then
-		micro.InfoBar():Error("os.Chdir failed: " .. err)
-	else
-		micro.InfoBar():Message("Changed directory to " .. path)
-	end
+	bp:CdCmd({ path })
+	micro.InfoBar():Message("Changed directory to " .. path)
 end
 
 function cdReturn(bp)
 	if lastDir then
-		local ok, err = pcall(os.Chdir, lastDir)
-
-		if not ok then
-			micro.InfoBar():Error("os.Chdir failed: " .. err)
-		else
-			micro.InfoBar():Message("Returned to: " .. lastDir)
-		end
+		bp:CdCmd({ lastDir })
+		micro.InfoBar():Message("Returned to: " .. lastDir)
 		lastDir = nil
 	else
 		micro.InfoBar():Error("No previous directory cached.")
