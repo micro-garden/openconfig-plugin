@@ -1,8 +1,9 @@
-VERSION = "0.0.0"
+VERSION = "0.0.1"
 
 local micro = import("micro")
 local config = import("micro/config")
 local buffer = import("micro/buffer")
+local os = import("os")
 
 local function openFile(bp, filename)
 	local path = config.ConfigDir .. "/" .. filename
@@ -28,9 +29,62 @@ function openInitLua(bp)
 	openFile(bp, "init.lua")
 end
 
+function isWindows()
+	return os.Getenv("windir") ~= ""
+end
+
+function getCurrentDir()
+	local command = isWindows() and "cd" or "pwd"
+
+	local handle = io.popen(command)
+	if not handle then
+		return nil
+	end
+
+	local result = handle:read("*l")
+	handle:close()
+	return result
+end
+
+local lastDir = nil
+
+function cdConfig(bp)
+	local current = getCurrentDir()
+	if current and lastDir == nil then
+		lastDir = current
+	end
+
+	local path = config.ConfigDir
+	local ok, err = pcall(os.Chdir, path)
+
+	if not ok then
+		micro.InfoBar():Error("os.Chdir failed: " .. err)
+	else
+		micro.InfoBar():Message("Changed directory to " .. path)
+	end
+end
+
+function cdReturn(bp)
+	if lastDir then
+		os.Chdir(lastDir)
+		micro.InfoBar():Message("Returned to: " .. lastDir)
+		lastDir = nil
+	else
+		micro.InfoBar():Error("No previous directory cached.")
+	end
+end
+
+function showConfigPath(bp)
+	local path = config.ConfigDir
+	micro.InfoBar():Message("Config Path: " .. path)
+end
+
 function init()
 	config.MakeCommand("opensettings", openSettings, config.NoComplete)
 	config.MakeCommand("openbindings", openBindings, config.NoComplete)
 	config.MakeCommand("openinitlua", openInitLua, config.NoComplete)
+	config.MakeCommand("cdconfig", cdConfig, config.NoComplete)
+	config.MakeCommand("cdreturn", cdReturn, config.NoComplete)
+	config.MakeCommand("showconfigpath", showConfigPath, config.NoComplete)
 	config.AddRuntimeFile("openconfig", config.RTHelp, "help/openconfig.md")
 end

@@ -2,8 +2,8 @@
 
 **Open Config** is a plugin for the
 [micro](https://micro-editor.github.io/) text editor that makes it easy to
-open configuration files located in micro's config directory, such as
-`settings.json`, `bindings.json`, and `init.lua`.
+open and work with configuration files located in micro's config directory,
+such as `settings.json`, `bindings.json`, and `init.lua`.
 
 See [help/openconfig.md](help/openconfig.md) for more details.
 
