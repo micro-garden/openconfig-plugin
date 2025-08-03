@@ -29,11 +29,11 @@ function openInitLua(bp)
 	openFile(bp, "init.lua")
 end
 
-function isWindows()
+local function isWindows()
 	return os.Getenv("windir") ~= ""
 end
 
-function getCurrentDir()
+local function getCurrentDir()
 	local command = isWindows() and "cd" or "pwd"
 
 	local handle = io.popen(command)
