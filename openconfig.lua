@@ -17,15 +17,15 @@ local function openFile(bp, filename)
 	bp:OpenBuffer(buf)
 end
 
-function openSettings(bp)
+function OpenSettingsCmd(bp)
 	openFile(bp, "settings.json")
 end
 
-function openBindings(bp)
+function OpenBindingsCmd(bp)
 	openFile(bp, "bindings.json")
 end
 
-function openInitLua(bp)
+function OpenInitLuaCmd(bp)
 	openFile(bp, "init.lua")
 end
 
@@ -41,7 +41,7 @@ end
 
 local lastDir = nil
 
-function cdConfig(bp)
+function CdConfigCmd(bp)
 	local current = getCurrentDir()
 	if current and lastDir == nil then
 		lastDir = current
@@ -52,7 +52,7 @@ function cdConfig(bp)
 	micro.InfoBar():Message("Changed directory to " .. path)
 end
 
-function cdReturn(bp)
+function CdReturnCmd(bp)
 	if lastDir then
 		bp:CdCmd({ lastDir })
 		micro.InfoBar():Message("Returned to: " .. lastDir)
@@ -62,17 +62,17 @@ function cdReturn(bp)
 	end
 end
 
-function showConfigPath(bp)
+function ShowConfigPathCmd(bp)
 	local path = config.ConfigDir
 	micro.InfoBar():Message("Config Path: " .. path)
 end
 
 function init()
-	config.MakeCommand("opensettings", openSettings, config.NoComplete)
-	config.MakeCommand("openbindings", openBindings, config.NoComplete)
-	config.MakeCommand("openinitlua", openInitLua, config.NoComplete)
-	config.MakeCommand("cdconfig", cdConfig, config.NoComplete)
-	config.MakeCommand("cdreturn", cdReturn, config.NoComplete)
-	config.MakeCommand("showconfigpath", showConfigPath, config.NoComplete)
+	config.MakeCommand("opensettings", OpenSettingsCmd, config.NoComplete)
+	config.MakeCommand("openbindings", OpenBindingsCmd, config.NoComplete)
+	config.MakeCommand("openinitlua", OpenInitLuaCmd, config.NoComplete)
+	config.MakeCommand("cdconfig", CdConfigCmd, config.NoComplete)
+	config.MakeCommand("cdreturn", CdReturnCmd, config.NoComplete)
+	config.MakeCommand("showconfigpath", ShowConfigPathCmd, config.NoComplete)
 	config.AddRuntimeFile("openconfig", config.RTHelp, "help/openconfig.md")
 end
