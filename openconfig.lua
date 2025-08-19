@@ -1,4 +1,4 @@
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 
 local micro = import("micro")
 local config = import("micro/config")
@@ -17,15 +17,15 @@ local function openFile(bp, filename)
 	bp:OpenBuffer(buf)
 end
 
-function OpenSettingsCmd(bp)
+function OpenSettings(bp)
 	openFile(bp, "settings.json")
 end
 
-function OpenBindingsCmd(bp)
+function OpenBindings(bp)
 	openFile(bp, "bindings.json")
 end
 
-function OpenInitLuaCmd(bp)
+function OpenInitLua(bp)
 	openFile(bp, "init.lua")
 end
 
@@ -41,7 +41,7 @@ end
 
 local lastDir = nil
 
-function CdConfigCmd(bp)
+function CdConfig(bp)
 	local current = getCurrentDir()
 	if current and lastDir == nil then
 		lastDir = current
@@ -52,7 +52,7 @@ function CdConfigCmd(bp)
 	micro.InfoBar():Message("Changed directory to " .. path)
 end
 
-function CdReturnCmd(bp)
+function CdReturn(bp)
 	if lastDir then
 		bp:CdCmd({ lastDir })
 		micro.InfoBar():Message("Returned to: " .. lastDir)
@@ -62,17 +62,17 @@ function CdReturnCmd(bp)
 	end
 end
 
-function ShowConfigPathCmd(bp)
+function ShowConfigPath(bp)
 	local path = config.ConfigDir
 	micro.InfoBar():Message("Config Path: " .. path)
 end
 
 function init()
-	config.MakeCommand("opensettings", OpenSettingsCmd, config.NoComplete)
-	config.MakeCommand("openbindings", OpenBindingsCmd, config.NoComplete)
-	config.MakeCommand("openinitlua", OpenInitLuaCmd, config.NoComplete)
-	config.MakeCommand("cdconfig", CdConfigCmd, config.NoComplete)
-	config.MakeCommand("cdreturn", CdReturnCmd, config.NoComplete)
-	config.MakeCommand("showconfigpath", ShowConfigPathCmd, config.NoComplete)
+	config.MakeCommand("opensettings", OpenSettings, config.NoComplete)
+	config.MakeCommand("openbindings", OpenBindings, config.NoComplete)
+	config.MakeCommand("openinitlua", OpenInitLua, config.NoComplete)
+	config.MakeCommand("cdconfig", CdConfig, config.NoComplete)
+	config.MakeCommand("cdreturn", CdReturn, config.NoComplete)
+	config.MakeCommand("showconfigpath", ShowConfigPath, config.NoComplete)
 	config.AddRuntimeFile("openconfig", config.RTHelp, "help/openconfig.md")
 end
