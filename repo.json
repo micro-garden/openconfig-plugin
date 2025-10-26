@@ -3,33 +3,33 @@
 	"Description": "Adds commands to open micro config files like settings.json, bindings.json, and init.lua.",
 	"Author": "Aki Kareha",
 	"Tags": ["config", "settings", "open"],
-	"Website": "https://github.com/akikareha/micro-openconfig-plugin",
+	"Website": "https://github.com/micro-garden/openconfig-plugin",
 	"License": "MIT",
 	"Versions": [
 		{
 			"Version": "0.0.3",
-			"Url": "https://github.com/akikareha/micro-openconfig-plugin/archive/v0.0.3.zip",
+			"Url": "https://github.com/micro-garden/openconfig-plugin/archive/v0.0.3.zip",
 			"Require": {
 				"micro": ">=2.0.0"
 			}
 		},
 		{
 			"Version": "0.0.2",
-			"Url": "https://github.com/akikareha/micro-openconfig-plugin/archive/v0.0.2.zip",
+			"Url": "https://github.com/micro-garden/openconfig-plugin/archive/v0.0.2.zip",
 			"Require": {
 				"micro": ">=2.0.0"
 			}
 		},
 		{
 			"Version": "0.0.1",
-			"Url": "https://github.com/akikareha/micro-openconfig-plugin/archive/v0.0.1.zip",
+			"Url": "https://github.com/micro-garden/openconfig-plugin/archive/v0.0.1.zip",
 			"Require": {
 				"micro": ">=2.0.0"
 			}
 		},
 		{
 			"Version": "0.0.0",
-			"Url": "https://github.com/akikareha/micro-openconfig-plugin/archive/v0.0.0.zip",
+			"Url": "https://github.com/micro-garden/openconfig-plugin/archive/v0.0.0.zip",
 			"Require": {
 				"micro": ">=2.0.0"
 			}
